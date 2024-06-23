@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dataAccessLayer.concrete;
 
@@ -11,9 +12,11 @@ using dataAccessLayer.concrete;
 namespace dataAccessLayer.Migrations
 {
     [DbContext(typeof(context))]
-    partial class contextModelSnapshot : ModelSnapshot
+    [Migration("20240619125323_mig6")]
+    partial class mig6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +61,6 @@ namespace dataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("postId"));
 
-                    b.Property<int?>("RecipeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("authorId")
                         .HasColumnType("int");
 
@@ -79,13 +79,14 @@ namespace dataAccessLayer.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int?>("recipeTableRecipeId")
+                        .HasColumnType("int");
+
                     b.HasKey("postId");
 
-                    b.HasIndex("RecipeId")
-                        .IsUnique()
-                        .HasFilter("[RecipeId] IS NOT NULL");
-
                     b.HasIndex("authorId");
+
+                    b.HasIndex("recipeTableRecipeId");
 
                     b.ToTable("postTables");
                 });
@@ -124,19 +125,17 @@ namespace dataAccessLayer.Migrations
 
             modelBuilder.Entity("entityLayer.concrete.postTable", b =>
                 {
-                    b.HasOne("entityLayer.concrete.recipeTable", "Recipe")
-                        .WithOne("Post")
-                        .HasForeignKey("entityLayer.concrete.postTable", "RecipeId");
-
                     b.HasOne("entityLayer.concrete.authorTable", "Author")
                         .WithMany("Posts")
                         .HasForeignKey("authorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.HasOne("entityLayer.concrete.recipeTable", null)
+                        .WithMany("Posts")
+                        .HasForeignKey("recipeTableRecipeId");
 
-                    b.Navigation("Recipe");
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("entityLayer.concrete.authorTable", b =>
@@ -146,7 +145,7 @@ namespace dataAccessLayer.Migrations
 
             modelBuilder.Entity("entityLayer.concrete.recipeTable", b =>
                 {
-                    b.Navigation("Post");
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

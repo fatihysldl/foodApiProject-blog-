@@ -20,7 +20,6 @@ namespace entityLayer.concrete
         [StringLength(25)]
         public string password { get; set; }
 
-
         public List<postTable>? Posts { get; set; }
 
 

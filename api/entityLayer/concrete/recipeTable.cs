@@ -21,6 +21,7 @@ namespace entityLayer.concrete
 
         [StringLength(150)]
         public string ımagePath { get; set; }
-        public List<postTable>? Posts { get; set; }
+       // public int postId { get; set; }
+        public postTable? Post { get; set; }
     }
 }

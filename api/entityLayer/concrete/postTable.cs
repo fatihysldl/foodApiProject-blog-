@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,5 +23,8 @@ namespace entityLayer.concrete
 
         public int authorId { get; set; }
         public authorTable? Author { get; set; }
+
+        [ForeignKey("RecipeId")]
+        public recipeTable? Recipe { get; set; }
     }
 }

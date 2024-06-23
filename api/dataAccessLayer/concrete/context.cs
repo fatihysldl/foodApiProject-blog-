@@ -16,5 +16,6 @@ namespace dataAccessLayer.concrete
         }
         public DbSet<authorTable> authorTables { get; set; }
         public DbSet<postTable> postTables { get; set; }
+        public DbSet<recipeTable> recipeTables { get; set; }
     }
 }
