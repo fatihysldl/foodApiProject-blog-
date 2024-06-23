@@ -15,6 +15,9 @@ builder.Services.AddScoped<IAuthorService, authorManager>();
 builder.Services.AddScoped<IPostDal, efPostDal>();
 builder.Services.AddScoped<IPostService, postManager>();
 
+builder.Services.AddScoped<IRecipeDal, efRecipeDal>();
+builder.Services.AddScoped<IRecipeService, recipeManager>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
