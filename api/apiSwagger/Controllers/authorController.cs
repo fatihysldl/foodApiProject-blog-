@@ -35,7 +35,7 @@ namespace apiSwagger.Controllers
             return Ok();
         }
         [HttpPut]
-        public IActionResult updateAuthor(int id,authorTable p)
+        public IActionResult updateAuthor(authorTable p)
         {
             _authorService.update(p);
             return Ok();

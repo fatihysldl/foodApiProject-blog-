@@ -46,5 +46,40 @@ namespace apiUI.Controllers
             }
             return View();
         }
+        public async Task<IActionResult> deleteAuthor(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.DeleteAsync($"https://localhost:44334/api/author/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+        public async Task<IActionResult> updateAuthor(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:44334/api/author/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var datas = await responseMessage.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<updateAuthorModelView>(datas);
+                return View(values);
+            }
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> updateAuthor(updateAuthorModelView model)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var data = JsonConvert.SerializeObject(model);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PutAsync($"https://localhost:44334/api/author/", content);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
     }
 }
